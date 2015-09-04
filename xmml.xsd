@@ -49,6 +49,10 @@
 			<selector xpath="xmml:definitions/xmml:submodel"/>
 			<field xpath="@id"/>
 		</unique>
+		<unique name="nestedsubmodelId">
+			<selector xpath="xmml:definitions/xmml:nestedsubmodel"/>
+			<field xpath="@id"/>
+		</unique>
 		<unique name="filterId">
 			<selector xpath="xmml:definitions/xmml:filter"/>
 			<field xpath="@id"/>
@@ -82,6 +86,10 @@
 		  <selector xpath="xmml:topology/xmml:instance"/>
 		  <field xpath="@submodel"/>
 	  </keyref>
+	  	<keyref name="nestedsubmodelIdRef" refer="xmml:nestedsubmodelId">
+		  <selector xpath="xmml:topology/xmml:instance"/>
+		  <field xpath="@nestedsubmodel"/>
+	  </keyref>
 		<keyref name="filterIdRef" refer="xmml:filterId">
 		  <selector xpath="xmml:topology/xmml:coupling/xmml:apply"/>
 		  <field xpath="@filter"/>
@@ -106,6 +114,7 @@
 					<element ref="xmml:filter"/>
 					<element ref="xmml:mapper"/>
 					<element ref="xmml:submodel"/>
+					<element ref="xmml:nestedsubmodel"/>
 				</choice>
 			</sequence>
   		<anyAttribute processContents="lax"/>
@@ -243,12 +252,44 @@
   						<enumeration value="fan-in"/>
   						<enumeration value="fan-out"/>
   						<enumeration value="fan-in-out"/>
+  						<enumeration value="branch"/>
+  						<enumeration value="join"/>
   					</restriction>
   				</simpleType>
   			</attribute>
   		</extension>
 		</complexContent></complexType>
 		<unique name="mapperParamId">
+			<selector xpath="xmml:param"/>
+			<field xpath="@id"/>
+		</unique>
+	</element>
+	
+	<element name="nestedsubmodel">
+	  <annotation><documentation>
+          Nested Model. Useful for for-loop nested workflow.
+          </documentation></annotation>
+		<complexType><complexContent>
+		        <extension base="xmml:computationalElement">
+  			    <sequence>
+  				<element ref="xmml:description" minOccurs="0" maxOccurs="1"/>
+  				<element ref="xmml:definitions"/>
+  				<!--<element ref="xmml:ports"/>-->
+  				<element ref="xmml:param" minOccurs="0" maxOccurs="unbounded"/>
+  				<element ref="xmml:implementation" minOccurs="0" maxOccurs="1"/>
+  				<element ref="xmml:extra" minOccurs="0" maxOccurs="unbounded"/>
+				<element ref="xmml:topology"/>
+  			    </sequence>
+  			<attribute name="name" type="string"><annotation><documentation>
+				  A more descriptive name for the nested submodel, using any characters.
+				 </documentation></annotation></attribute>
+  			<attribute name="type" type="string"><annotation><documentation>
+				  The generic type of a nested submodel. 
+				 </documentation></annotation></attribute>
+  		        </extension>
+  		        </complexContent>
+		</complexType>
+			<unique name="nestedsubmodelParamId">
 			<selector xpath="xmml:param"/>
 			<field xpath="@id"/>
 		</unique>
