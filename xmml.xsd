@@ -49,8 +49,8 @@
 			<selector xpath="xmml:definitions/xmml:submodel"/>
 			<field xpath="@id"/>
 		</unique>
-		<unique name="nestedsubmodelId">
-			<selector xpath="xmml:definitions/xmml:nestedsubmodel"/>
+		<unique name="nestedmodelId">
+			<selector xpath="xmml:definitions/xmml:nestedmodel"/>
 			<field xpath="@id"/>
 		</unique>
 		<unique name="filterId">
@@ -86,9 +86,9 @@
 		  <selector xpath="xmml:topology/xmml:instance"/>
 		  <field xpath="@submodel"/>
 	  </keyref>
-	  	<keyref name="nestedsubmodelIdRef" refer="xmml:nestedsubmodelId">
+	  	<keyref name="nestedmodelIdRef" refer="xmml:nestedmodelId">
 		  <selector xpath="xmml:topology/xmml:instance"/>
-		  <field xpath="@nestedsubmodel"/>
+		  <field xpath="@nestedmodel"/>
 	  </keyref>
 		<keyref name="filterIdRef" refer="xmml:filterId">
 		  <selector xpath="xmml:topology/xmml:coupling/xmml:apply"/>
@@ -114,7 +114,7 @@
 					<element ref="xmml:filter"/>
 					<element ref="xmml:mapper"/>
 					<element ref="xmml:submodel"/>
-					<element ref="xmml:nestedsubmodel"/>
+					<element ref="xmml:nestedmodel"/>
 				</choice>
 			</sequence>
   		<anyAttribute processContents="lax"/>
@@ -265,7 +265,7 @@
 		</unique>
 	</element>
 	
-	<element name="nestedsubmodel">
+	<element name="nestedmodel">
 	  <annotation><documentation>
           Nested Model. Useful for for-loop nested workflow.
           </documentation></annotation>
@@ -289,7 +289,7 @@
   		        </extension>
   		        </complexContent>
 		</complexType>
-			<unique name="nestedsubmodelParamId">
+			<unique name="nestedmodelParamId">
 			<selector xpath="xmml:param"/>
 			<field xpath="@id"/>
 		</unique>
