@@ -307,7 +307,7 @@
 		  <extension base="xmml:computationalElement">
   			<sequence>
   				<element ref="xmml:description" minOccurs="0" maxOccurs="1"/>
-  				<element ref="xmml:timescale"/>
+  				<element ref="xmml:timescale" minOccurs="0" maxOccurs="unbounded"/>
   				<element ref="xmml:spacescale" minOccurs="0" maxOccurs="unbounded"/>
   				<element ref="xmml:otherscale" minOccurs="0" maxOccurs="unbounded"/>
   				<element ref="xmml:param" minOccurs="0" maxOccurs="unbounded"/>
