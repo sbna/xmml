@@ -1,0 +1,85 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE model SYSTEM "xmml.dtd">
+<model id="ExampleCHIC1" name="Example_chic" xmml_version="0.4" xmlns="http://www.mapper-project.eu/xmml" xmlns:xi="http://www.w3.org/2001/XInclude" type="DAG">
+    <description>
+      xMML Example of a generic CHIC model with a MUSCLE coupler hypomodel
+    </description>
+
+    <definitions>
+      <xi:include href="isr_meta.xml#xpointer(/metadata/*)"/>
+      
+      <terminal id="terminal_in1" type="source">
+        <ports>
+          <out id="out1" datatype="string"/>
+        </ports>
+      </terminal>
+      <terminal id="terminal_out1" type="sink">
+        <ports>
+          <in  id="in1" datatype="string"/>
+        </ports>
+      </terminal>
+      
+      <submodel id="preprocess1" name="Preprocess" type="Static">
+        <ports>
+          <in id="preprocess_in1" datatype="string"/>
+          <out id="preprocess_out1" datatype="string"/>
+        </ports>
+      </submodel>
+      
+      <nestedmodel id="NestedMUSCLE1" name="Nested_MUSCLE" type="coupledcyclic">
+           <description>
+             The MUSCLE coupler
+           </description>
+	   <ports>
+             <in id="nestedmuscle_in1" datatype="string"/>
+             <out id="nestedmuscle_out1" datatype="string"/>
+           </ports>
+           <definitions>
+              <xi:include href="isr_meta.xml#xpointer(/metadata/*)"/>
+              
+           <submodel id="musclecoupler1" name="musclecoupler" type="Static">
+	    <!--<timescale delta="10 min" total="1 yr"/>-->
+	    <!--<spacescale id="x" delta="1 m" total="3 km"/>-->
+             <ports>
+               <in id="muscle_in1" datatype="string"/>
+               <out id="muscle_out1" datatype="string"/>
+             </ports>
+           </submodel> 
+           </definitions>
+	   
+	   <implementation>
+               <interpreter name="muscle2"/>
+           </implementation>
+
+	   <topology>
+             <instance id="muscle_instance1" submodel="musclecoupler"/>
+	     <coupling from="NestedMUSCLE1.nestedmuscle_in1" to="muscle_instance1.muscle_in1"/>
+	     <coupling from="muscle_instance1.muscle_out1" to="NestedMUSCLE1.nestedmuscle_out1"/>
+	   </topology>
+      </nestedmodel>
+
+      <submodel id="postprocess1" name="Postprocess" type="Static">
+        <ports>
+          <in id="postprocess_in1" datatype="string"/>
+          <out id="postprocess_out1" datatype="string"/>
+        </ports>
+      </submodel>
+
+    </definitions>
+    
+    <implementation>
+        <interpreter name="taverna2"/>
+    </implementation>
+  
+  <topology>
+    <instance terminal="terminal_in1"/>
+    <instance terminal="terminal_out1"/>
+    <instance id="instance_preprocess" submodel="preprocess1"/>
+    <instance id="instance_postprocess" submodel="postprocess1"/>
+    <instance id="instance_cyclic" nestedmodel="NestedMUSCLE1"/>
+    <coupling from="terminal_in1.out1" to="instance_preprocess.preprocess_in1"/>
+    <coupling from="instance_preprocess.preprocess_out1" to="instance_cyclic.nestedmuscle_in1"/>
+    <coupling from="instance_cyclic.nestedmuscle_out1" to="instance_postprocess.postprocess_in1"/>
+    <coupling from="instance_postprocess.postprocess_out1" to="terminal_out1.in1"/>
+  </topology>
+</model>

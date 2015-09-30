@@ -12,6 +12,12 @@
           <description>
               The nested-model example
           </description> 
+          
+          <ports>
+            <in id="dd_flow_left_in" operator="S" datatype="double"/>
+            <out id="dd_flow_right_out" operator="Oi" datatype="double"/>
+          </ports>   
+          
           <definitions>
               <xi:include href="isr_meta.xml#xpointer(/metadata/*)"/>
               

@@ -24,6 +24,7 @@
 			<sequence>
 				<element ref="xmml:description" minOccurs="0" maxOccurs="1"/>
 				<element ref="xmml:definitions"/>
+				<element ref="xmml:implementation" minOccurs="0" maxOccurs="1"/>
 				<element ref="xmml:topology"/>
 			</sequence>
 			<attribute name="id" type="NCName" use="required"/>
@@ -273,8 +274,8 @@
 		        <extension base="xmml:computationalElement">
   			    <sequence>
   				<element ref="xmml:description" minOccurs="0" maxOccurs="1"/>
+  				<element ref="xmml:ports"/>
   				<element ref="xmml:definitions"/>
-  				<!--<element ref="xmml:ports"/>-->
   				<element ref="xmml:param" minOccurs="0" maxOccurs="unbounded"/>
   				<element ref="xmml:implementation" minOccurs="0" maxOccurs="1"/>
   				<element ref="xmml:extra" minOccurs="0" maxOccurs="unbounded"/>
